@@ -1,29 +1,16 @@
 """
-Simple main for parser testing
+Simple main for interactive parser testing
 """
 import readline  #noqa pylint:disable=unused-import
-from .shunting_yard import parse as sy_parse
-from .basic_pratt import parse as pratt1_parse
-from .pratt_nopeek import parse as pratt2_parse
-from .op_base import Lexer, EvalVisitor, Lispish
-
-PARSERS = (
-    ("Shunting Yard", sy_parse),
-    ("Basic Pratt Parsing", pratt1_parse),
-    ("No-peek Pratt Parsing", pratt2_parse),
-    )
-
-def drive_parse(strategy, exprstr):
-    tokens = Lexer(exprstr)
-    tokens.clear_for_error()
-    return strategy(tokens)
+from .parsers import PARSERS, drive_parse
+from .op_base import EvalVisitor, Lispish
 
 def display(parse_name, parse_func, exprstr):
     try:
         tree = drive_parse(parse_func, exprstr)
         print(f"{parse_name} evaluated to {tree.accept(EvalVisitor())}")
         print(f"   s-exp: {tree.accept(Lispish())}")
-    except ValueError as err:
+    except (ValueError, ZeroDivisionError) as err:
         print(f"{parse_name} errored: {err}")
 
 
