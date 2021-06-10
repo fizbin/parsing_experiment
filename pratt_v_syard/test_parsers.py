@@ -12,7 +12,7 @@ from .op_base import Lispish
 class TestParseErrors(unittest.TestCase):
     def do_error_test_case(self, inputstr, errorstr):
         for (pname, pfunc) in PARSERS:
-            with self.subTest(pname):
+            with self.subTest(pname, expr=inputstr):
                 with self.assertRaisesRegex(ValueError, re.escape(errorstr)):
                     drive_parse(pfunc, inputstr)
 
