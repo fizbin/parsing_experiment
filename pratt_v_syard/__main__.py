@@ -1,9 +1,10 @@
 """
 Simple main for interactive parser testing
 """
-import readline  #noqa pylint:disable=unused-import
+import readline  # noqa pylint:disable=unused-import
 from .parsers import PARSERS, drive_parse
 from .op_base import EvalVisitor, Lispish
+
 
 def display(parse_name, parse_func, exprstr):
     try:

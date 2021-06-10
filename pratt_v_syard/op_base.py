@@ -126,6 +126,7 @@ class Lexer:
     """
     Simple single-regex lexer
     """
+
     def __init__(self, instr):
         self._tokens = list(LEX_RE.finditer(instr))
 

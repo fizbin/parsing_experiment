@@ -27,6 +27,7 @@ def prattparse_expr(tokstream, min_prec):
                 tok = tokstream.poll()
             elif tok.group("paren") and tok.group("paren") == "(":
                 loc = tok.start()
+
                 def cpsfunc1_closure(loc_):
                     def cpsfunc1(lhs_, tok_):
                         if tok_ is not None:
@@ -34,11 +35,14 @@ def prattparse_expr(tokstream, min_prec):
                                 pass
                             else:
                                 raise ValueError(
-                                    f"Expected operator or right paren at {tok_.start()}")
+                                    f"Expected operator or right paren at {tok_.start()}"
+                                )
                         else:
                             raise ValueError(f"Unclosed left paren beginning at {loc_}")
                         return (lhs_, tokstream.poll())
+
                     return cpsfunc1
+
                 local_stack.append((MIN_PRECEDENCE - 1, cpsfunc1_closure(loc)))
                 continue
             elif tok.group("paren"):
@@ -48,14 +52,20 @@ def prattparse_expr(tokstream, min_prec):
                 opname = "_" + tok.group("op")
                 if opname not in OPERATORS:
                     raise ValueError(
-                        "Unknown unary operator %s at %d" % (tok.group("op"), tok.start("op"))
+                        "Unknown unary operator %s at %d"
+                        % (tok.group("op"), tok.start("op"))
                     )
                 opinfo = OPERATORS[opname]
+
                 def cpsfunc2_closure(opname_, opinfo_):
                     def cpsfunc2(rhs_, tok_):
                         return (UniopNode(opname_, opinfo_.func, rhs_), tok_)
+
                     return cpsfunc2
-                local_stack.append((opinfo.right_precedence, cpsfunc2_closure(opname, opinfo)))
+
+                local_stack.append(
+                    (opinfo.right_precedence, cpsfunc2_closure(opname, opinfo))
+                )
                 continue
 
         if tok is not None:
@@ -67,12 +77,16 @@ def prattparse_expr(tokstream, min_prec):
                 if opinfo.left_precedence < local_stack[-1][0]:
                     pass
                 else:
+
                     def cpsfunc3_closure(opname_, opinfo_, lhs_):
                         def cpsfunc3(rhs_, tok_):
                             return (BinopNode(opname_, opinfo_.func, lhs_, rhs_), tok_)
+
                         return cpsfunc3
+
                     local_stack.append(
-                        (opinfo.right_precedence, cpsfunc3_closure(opname, opinfo, lhs)))
+                        (opinfo.right_precedence, cpsfunc3_closure(opname, opinfo, lhs))
+                    )
                     do_first_part = True
                     continue
 
