@@ -4,12 +4,14 @@ Exports PARSERS which connects to all the parsers
 from .shunting_yard import parse as sy_parse
 from .basic_pratt import parse as pratt1_parse
 from .pratt_nopeek import parse as pratt2_parse
+from .pratt_stackless import parse as pratt3_parse
 from .op_base import Lexer
 
 PARSERS = (
     ("Shunting Yard", sy_parse),
     ("Basic Pratt Parsing", pratt1_parse),
     ("No-peek Pratt Parsing", pratt2_parse),
+    ("Stackless Pratt Parsing", pratt3_parse),
     )
 
 
