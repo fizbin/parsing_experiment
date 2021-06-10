@@ -34,6 +34,7 @@ class TestParseErrors(unittest.TestCase):
         self.do_error_test_case("(4 + 5", "Unclosed left paren beginning at 0")
         self.do_error_test_case("4 + (5", "Unclosed left paren beginning at 4")
         self.do_error_test_case("(4 + (5", "Unclosed left paren beginning at 5")
+        self.do_error_test_case("(4 * (5 - 3)", "Unclosed left paren beginning at 0")
 
     def test_unexpected_rparen(self):
         self.do_error_test_case("4 + )5", "Unexpected right paren at 4")
