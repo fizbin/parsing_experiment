@@ -8,15 +8,8 @@ from .op_base import (
 
 
 def parse(tokstream):
-    (retval, tok) = prattparse_expr(tokstream, MIN_PRECEDENCE - 1)
-    if tok is not None:
-        raise ValueError(f"Expected operator at {tok.start()}")
-    return retval
-
-
-def prattparse_expr(tokstream, min_prec):
     do_first_part = True
-    local_stack = [(min_prec, lambda _l: _l, -1)]
+    local_stack = [(MIN_PRECEDENCE - 1, lambda _l: _l, -1)]
     while local_stack:
         if do_first_part:
             tok = tokstream.poll()
@@ -98,4 +91,6 @@ def prattparse_expr(tokstream, min_prec):
         if old_prec == MIN_PRECEDENCE - 1 and loc >= 0:
             raise ValueError(f"Unclosed left paren beginning at {loc}")
         lhs = lhs_func(lhs)
-    return (lhs, tok)
+    if tok is not None:
+        raise ValueError(f"Expected operator at {tok.start()}")
+    return lhs
