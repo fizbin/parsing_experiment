@@ -8,6 +8,7 @@ from .pratt_stackless import parse as pratt_sl1_parse
 from .pratt_stackless2 import parse as pratt_sl2_parse
 from .pratt_stackless3 import parse as pratt_sl3_parse
 from .pratt_stackless4 import parse as pratt_sl4_parse
+from .pratt_stackless5 import parse as pratt_sl5_parse
 from .op_base import Lexer
 
 PARSERS = (
@@ -18,6 +19,7 @@ PARSERS = (
     ("Stackless2 Pratt Parsing", pratt_sl2_parse),
     ("Stackless3 Pratt Parsing", pratt_sl3_parse),
     ("Stackless4 Pratt Parsing", pratt_sl4_parse),
+    ("Stackless5 Pratt Parsing", pratt_sl5_parse),
 )
 
 
